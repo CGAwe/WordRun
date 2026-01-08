@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Daily Bible Growth</title>
+
+<style>
+  :root {
+    --green-dark: #2f5d3a;
+    --green-light: #7fc8a9;
+    --cream: #f6fbf8;
+    --brown: #8b5a2b;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, #eaf7f0, var(--cream));
+    color: #2d3a2f;
+  }
+
+  .page {
+    min-height: 100vh;
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  h1 {
+    color: var(--green-dark);
+  }
+
+  .plant {
+    font-size: 120px;
+    margin-bottom: -20px;
+  }
+
+  .pot {
+    width: 260px;
+    height: 150px;
+    margin: auto;
+    background: linear-gradient(180deg, #9c6b3d, var(--brown));
+    border-radius: 0 0 60px 60px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .water {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, rgba(120,200,255,0.7), rgba(0,150,255,0.6));
+    transition: height 1s ease;
+  }
+
+  .progress {
+    width: 260px;
+    height: 12px;
+    background: #dfeee5;
+    border-radius: 12px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+
+  .bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green-light), var(--green-dark));
+  }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+  <h1>Daily Bible Growth</h1>
+  <p id="days">Loading...</p>
+
+  <div class="plant" id="plant">🌱</div>
+
+  <div class="pot">
+    <div class="water" id="water"></div>
+  </div>
+
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+</div>
+
+<script>
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name") || "Sarah";
+
+fetch(`${API_URL}?name=${name}`)
+  .then(res => res.json())
+  .then(data => {
+    const percent = Math.min((data.daysRead / data.totalDays) * 100, 100);
+
+    document.getElementById("days").innerText =
+      `Day ${data.daysRead} of ${data.totalDays}`;
+
+    document.getElementById("bar").style.width = percent + "%";
+    document.getElementById("water").style.height = percent + "%";
+
+    const plant = document.getElementById("plant");
+
+    if (data.daysRead <= 5) plant.innerText = "🌰";
+    else if (data.daysRead <= 15) plant.innerText = "🌱";
+    else if (data.daysRead <= 30) plant.innerText = "🌿";
+    else if (data.daysRead <= 60) plant.innerText = "🌳";
+    else plant.innerText = "🌲";
+  });
+</script>
+
+</body>
+</html>
