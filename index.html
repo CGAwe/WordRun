@@ -82,44 +82,45 @@ const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 
 if (!name) {
-  document.body.innerHTML = "<h2>No name provided</h2>";
+  document.body.innerHTML = "No name provided.";
 }
 
 fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
   .then(res => res.json())
   .then(data => {
     if (data.error) {
-      document.body.innerHTML = `<h2>${data.error}</h2>`;
+      document.body.innerHTML = data.error;
       return;
     }
 
-    document.getElementById("name").textContent = data.name;
+    const daysRead = data.daysRead;
+    const percent = (daysRead / 90) * 100;
 
-    const percent = Math.round((data.daysRead / data.totalDays) * 100);
-    document.getElementById("progressText").textContent =
-      `${data.daysRead} / ${data.totalDays} days`;
-    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("days").innerText =
+      `${daysRead} of 90 days completed`;
 
-    document.getElementById("plant").textContent = plantForStage(data.stage);
+    document.getElementById("progress").style.width = percent + "%";
+
+    const plant = document.getElementById("plant");
+    const stage = document.getElementById("stage");
+
+    if (daysRead <= 5) {
+      plant.innerText = "🌰";
+      stage.innerText = "Seed Stage";
+    } else if (daysRead <= 15) {
+      plant.innerText = "🌱";
+      stage.innerText = "Sprouting Faith";
+    } else if (daysRead <= 30) {
+      plant.innerText = "🌿";
+      stage.innerText = "Growing Strong";
+    } else if (daysRead <= 60) {
+      plant.innerText = "🌳";
+      stage.innerText = "Deeply Rooted";
+    } else {
+      plant.innerText = "🌲";
+      stage.innerText = "Flourishing";
+    }
   });
-
-function plantForStage(stage) {
-  const map = {
-    "Seed": "🌰",
-    "Sprout": "🌱",
-    "Seedling": "🌿",
-    "Young Plant": "🪴",
-    "Mature": "🌳"
-  };
-  return map[stage] || "🌱";
-}
-
-function openForm() {
-  window.open(
-    "https://docs.google.com/forms/d/e/1FAIpQLSeJgSl9-5gca3vpAmdS_sTqPZaahQrkpAk3e3il6kfV6LOWyQ/viewform?usp=dialog",
-    "_blank"
-  );
-}
 </script>
 
 </body>
