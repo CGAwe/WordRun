@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Word Run Plant</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #eaf6f0, #f7fff9);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+}
+
+.plant {
+  font-size: 80px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 18px;
+  margin: 15px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #8bcf9f, #6fbf8a);
+  transition: width 0.6s ease;
+}
+
+button {
+  margin-top: 20px;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 12px;
+  background: #6fbf8a;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2 id="name">Loading...</h2>
+
+  <div class="plant" id="plant">🌱</div>
+
+  <div id="progressText">0 / 90 days</div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <button onclick="openForm()">Log Today</button>
+</div>
+
+<script>
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+
+if (!name) {
+  document.body.innerHTML = "<h2>No name provided</h2>";
+}
+
+fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
+  .then(res => res.json())
+  .then(data => {
+    if (data.error) {
+      document.body.innerHTML = `<h2>${data.error}</h2>`;
+      return;
+    }
+
+    document.getElementById("name").textContent = data.name;
+
+    const percent = Math.round((data.daysRead / data.totalDays) * 100);
+    document.getElementById("progressText").textContent =
+      `${data.daysRead} / ${data.totalDays} days`;
+    document.getElementById("progressFill").style.width = percent + "%";
+
+    document.getElementById("plant").textContent = plantForStage(data.stage);
+  });
+
+function plantForStage(stage) {
+  const map = {
+    "Seed": "🌰",
+    "Sprout": "🌱",
+    "Seedling": "🌿",
+    "Young Plant": "🪴",
+    "Mature": "🌳"
+  };
+  return map[stage] || "🌱";
+}
+
+function openForm() {
+  window.open(
+    "PASTE_GOOGLE_FORM_URL_HERE",
+    "_blank"
+  );
+}
+</script>
+
+</body>
+</html>
