@@ -122,6 +122,23 @@ fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
     }
   });
 </script>
+  <div id="leaderboard"></div>
+
+<script>
+fetch("YOUR_WEB_APP_URL?action=leaderboard")
+  .then(res => res.json())
+  .then(data => {
+    const div = document.getElementById("leaderboard");
+    div.innerHTML = "<h3>🌿 Leaderboard</h3>";
+
+    data.slice(0,5).forEach((p,i) => {
+      div.innerHTML += `
+        <p>${i+1}. ${p.name} — ${p.daysRead} days</p>
+      `;
+    });
+  });
+</script>
+
 
 </body>
 </html>
