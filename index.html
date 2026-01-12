@@ -84,6 +84,7 @@ const name = params.get("name");
 if (!name) {
   document.body.innerHTML = "No name provided.";
 }
+  document.getElementById("name").innerText = name;
 
 fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
   .then(res => res.json())
