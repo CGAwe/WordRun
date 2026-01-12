@@ -16,6 +16,13 @@ body {
 }
 
 .card {
+  <h3 id="greeting" style="
+  margin: 0 0 12px;
+  font-weight: 600;
+  color: #2f5d3a;
+">
+  Hi!
+</h3>
   background: white;
   border-radius: 24px;
   padding: 30px;
@@ -94,6 +101,7 @@ if (!name) {
 fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
   .then(res => res.json())
   .then(data => {
+    document.getElementById("greeting").innerText = `Hi, ${name}!`;
     const daysRead = data.daysRead;
     const percent = (daysRead / 90) * 100;
 
