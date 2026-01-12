@@ -82,7 +82,7 @@ button {
 </div>
 
 <script>
-const API_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+const API_URL = "https://script.google.com/macros/s/AKfycbzbZFS5D40JAafn2hjPWn0oF0JDuIrkjWUS-4oOdoI6ilIi4_tqp88P8ief0zlzbL9N-A/exec";
 
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
@@ -124,7 +124,7 @@ fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
   });
 
 function openForm() {
-  window.open("PASTE_YOUR_GOOGLE_FORM_URL", "_blank");
+  window.open("https://docs.google.com/forms/d/e/1FAIpQLSeJgSl9-5gca3vpAmdS_sTqPZaahQrkpAk3e3il6kfV6LOWyQ/viewform?usp=header", "_blank");
 }
 </script>
 
