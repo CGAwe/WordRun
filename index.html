@@ -82,7 +82,7 @@ button {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzbZFS5D40JAafn2hjPWn0oF0JDuIrkjWUS-4oOdoI6ilIi4_tqp88P8ief0zlzbL9N-A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyFQUOt7vY1OfTbpzTOJXv9GjJ3VRGTQ9z1gDyOggRGNTsUvgt2Q3M5p4yTGGyXN4RRfA/exec";
 
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
@@ -121,6 +121,11 @@ fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
       plant.innerText = "🌲";
       stage.innerText = "Flourishing";
     }
+    if (data.error) {
+  document.getElementById("stage").innerText = data.error;
+  return;
+}
+
   });
 
 function openForm() {
