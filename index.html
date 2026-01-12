@@ -72,11 +72,11 @@ button {
     <div class="progress-fill" id="progressFill"></div>
   </div>
 
-  <button onclick="openForm()">Log Today</button>
+  <button onclick="openForm(https://docs.google.com/forms/d/e/1FAIpQLSeJgSl9-5gca3vpAmdS_sTqPZaahQrkpAk3e3il6kfV6LOWyQ/viewform?usp=header)">Log Today</button>
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxVaJHv-AwEZOIUJ0Rp4TCGoZr89wQK2XZ7WW3WAbP8re97pxGHZYeKwKg4hjA9gWqX6A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzZXjxeJ9pH_j4tdVlJi3nycyOdTWTCQ3BV4q2f4aBKPZ4jdZ-C01CKbhnKz-SyEHQK/exec";
 
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
@@ -84,7 +84,6 @@ const name = params.get("name");
 if (!name) {
   document.body.innerHTML = "No name provided.";
 }
-  document.getElementById("name").innerText = name;
 
 fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
   .then(res => res.json())
@@ -123,6 +122,7 @@ fetch(`${API_URL}?name=${encodeURIComponent(name)}`)
     }
   });
 </script>
+
 
 
 </body>
